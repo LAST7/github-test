@@ -102,11 +102,13 @@ class Sudoku():
 
     def dfs_solution(self,progress:int,line,column,unit) -> bool:
         while True:
+            # 递归跳出条件
             if progress == len(self.empty_item):
                 for lines in line:
                     print(*lines)
                 print("Problem Solved.")
                 return True
+            # 遍历所有之前找出的此格子可能填入的数字，检查合法后填入并进入下一层递归
             for item in self.node_dict[self.empty_item[progress]]:
                 if self.check(self.empty_item[progress],item,line,column,unit):
                     pos = self.empty_item[progress]
@@ -116,9 +118,8 @@ class Sudoku():
 
                     if self.dfs_solution(progress+1,line,column,unit):
                         return True
-                    else:
-                        return False
 
+            # 若所有可能性都尝试过且都不合法，则将此格子重新退回0的状态，并返回上一级递归填入下一种可能的数字
             line[self.empty_item[progress][0]][self.empty_item[progress][1]] = 0
             column[self.empty_item[progress][1]][self.empty_item[progress][0]] = 0
             unit[3*(self.empty_item[progress][0]//3)+self.empty_item[progress][1]//3][3*(self.empty_item[progress][0]%3)+self.empty_item[progress][1]%3] = 0
