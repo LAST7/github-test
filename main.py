@@ -16,6 +16,9 @@ sys.setrecursionlimit(100000)
 def main():
     print("Please Enter the Sudoku Line by Line:")
     sudoku = sudoku_in()
+    if not sudoku_check(sudoku):
+        print("Illegal input, check your input content.")
+        sys.exit()
 
     su = Sudoku(sudoku)
 
@@ -35,6 +38,12 @@ def sudoku_in() -> list:
         init_sudoku.append(line)
 
     return init_sudoku
+
+def sudoku_check(sudoku:list) -> bool:
+    for lines in sudoku:
+        if len(lines) != 9:
+            return False
+    return True
 
 
 class Sudoku():
